@@ -1,0 +1,17 @@
+certifi
+chardet
+cycler
+googledrivedownloader
+idna
+joblib
+kiwisolver
+matplotlib
+numpy
+pyparsing
+python-dateutil
+requests
+scikit-learn
+scipy
+six
+sklearn
+urllib3

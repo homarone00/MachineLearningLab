@@ -23,7 +23,9 @@ def sigmoid(x):
     Apply the sigmoid function on x.
     See https://en.wikipedia.org/wiki/Sigmoid_function
     """
-    return None
+    sigmoide=1/(1+ np.exp(-x) + eps)
+
+    return sigmoide
 
 
 def loss(y_true, y_pred):
@@ -48,8 +50,11 @@ def loss(y_true, y_pred):
     y_true (targets) and y_pred (predictions).
 
     https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html#cross-entropy
+    
     """
-    return None
+
+    val = -(y_true * np.log(y_pred + eps) + (1 - y_true)*np.log(1-y_pred + eps))
+    return np.mean(val)
 
 
 def dloss_dw(y_true, y_pred, X):
@@ -73,12 +78,12 @@ def dloss_dw(y_true, y_pred, X):
     """
 
     N = X.shape[0]
-
+    val=-(np.transpose(X)@(y_true - y_pred ))/N
     """
     Compute the derivative of loss function w.r.t. weights.
     For its computation, please refer to the slide.
     """
-    return None
+    return val
 
 
 class LogisticRegression:
@@ -110,31 +115,32 @@ class LogisticRegression:
         n_samples, n_features = X.shape
 
         # weight initialization
-        self.w = np.random.randn(n_features) * 0.001
+        self._w = np.random.randn(n_features) * 0.001
 
         for e in range(n_epochs):
 
             """
-            # Compute predictions
-            # -> p = ...
+            # Compute predictions   
+            
             """
-
+            print(self._w)
+            p=sigmoid(np.matmul(X,self._w))
             """
             # Print loss between Y and predictions p
             # -> L = ...
             """
+            L=loss(Y,p)
 
             # Uncomment the following lines when the loss is implemented to print it
-            # if verbose and e % 500 == 0:
-            #     print(f'Epoch {e:4d}: loss={L}')
+            if verbose and e % 500 == 0:
+                print(f'Epoch {e:4d}: loss={L}')
 
             """
             # Update w based on the gradient descent rule
             # w(t+1) = w(t) - learning_rate * dL/dw(t)
             # -> self.w = ...
             """
-
-            pass
+            self._w=self._w - learning_rate * dloss_dw(Y,p,X)
 
 
     def predict(self, X):
@@ -160,5 +166,7 @@ class LogisticRegression:
         c) discretize the output (this way, y in {0,1})
         """
 
+        product=X @ self._w
+        solution=sigmoid(product)
+        return (solution >= 0.5).astype(int) #bello castato
         # remove random prections before coding the solution
-        return np.random.randint(2, size=X.shape[0])

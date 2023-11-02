@@ -10,7 +10,7 @@ np.random.seed(191090)
 def main():
     """ Main function """
 
-    # x_train, y_train, x_test, y_test = gaussians_dataset(2, [100, 150], [[1, 3], [-4, 8]], [[2, 3], [4, 1]])
+    #x_train, y_train, x_test, y_test = gaussians_dataset(2, [100, 150], [[1, 3], [-4, 8]], [[2, 3], [4, 1]])
     x_train, y_train, train_names, x_test, y_test, test_names, feature_names = load_got_dataset(path='data/got.csv', train_split=0.8)
 
     logistic_reg = LogisticRegression()
